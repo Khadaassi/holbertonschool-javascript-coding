@@ -19,4 +19,7 @@ if (process.argv.length !== 3) {
 }
 
 const filePath = process.argv[2];
-readFileContent(filePath);
+readFileContent(filePath).catch((err) => {
+  console.error(`Error reading file: ${err.message}`);
+  exit(1);
+});
