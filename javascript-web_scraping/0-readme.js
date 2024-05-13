@@ -1,6 +1,6 @@
 #!/usr/bin/node
 
-const fs = require('fs');
+const fs = require('fs').promises;
 const { exit } = require('process');
 
 async function readFileContent(filePath) {
