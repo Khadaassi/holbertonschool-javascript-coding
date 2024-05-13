@@ -1,30 +1,24 @@
 #!/usr/bin/node
 
 const request = require('request');
-
 const apiUrl = process.argv[2];
 
-request.get(apiUrl, (error, response, body) => {
+request(apiUrl, (error, response, body) => {
   if (error) {
-    console.error(`Error: ${error.message}`);
-  } else if (response.statusCode !== 200) {
-    console.error(`Unexpected status code: ${response.statusCode}`);
+    console.error(`Error: ${error}`);
   } else {
-    const todos = JSON.parse(body);
+    const todoTasks = JSON.parse(body);
     const completedTasksByUser = {};
 
-    todos.forEach(todo => {
-      if (todo.completed) {
-        if (completedTasksByUser[todo.userId]) {
-          completedTasksByUser[todo.userId]++;
+    todoTasks.forEach((todoTasks) => {
+      if (todoTasks.completed) {
+        if (completedTasksByUser[todoTasks.userId]) {
+          completedTasksByUser[todoTasks.userId]++;
         } else {
-          completedTasksByUser[todo.userId] = 1;
+          completedTasksByUser[todoTasks.userId] = 1;
         }
       }
     });
-
-    Object.entries(completedTasksByUser).forEach(([userId, count]) => {
-      console.log(`User ${userId}: ${count} completed tasks`);
-    });
+    console.log(completedTasksByUser);
   }
 });
